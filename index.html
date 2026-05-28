@@ -6,7 +6,7 @@
     <title>wata's Happy Portfolio</title>
     <style>
         :root {
-            /* 淡いピンク色のテーマ */
+            /* 淡いピンク色のテーマカラー */
             --bg-color: #fffdfd; /* ほぼ白に近い、ごく薄いピンク */
             --main-pink: #ffeef2; /* メインのパステルピンク */
             --accent-pink: #ffb7c5; /* 少し濃い、可愛いピンク（アクセント） */
@@ -144,12 +144,19 @@
         section {
             padding: 70px 0;
             border-bottom: 1px solid var(--secondary-color);
-            opacity: 0; /* 最初は隠す (JSで表示) */
-            transform: translateY(20px);
+            /* フェードインの初期状態設定（JSが動かない場合でも崩れないように修正） */
+            opacity: 1;
+            transform: translateY(0);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
 
-        section.visible {
+        /* JSで制御する際のアニメーション用クラス */
+        .js-fade {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .js-fade.visible {
             opacity: 1;
             transform: translateY(0);
         }
@@ -620,22 +627,30 @@
         }
 
         // スクロールアニメーション（ふわっと表示）
-        const sections = document.querySelectorAll('section');
-        const options = {
-            threshold: 0.2 // 20%見えたら実行
-        };
-
-        const observer = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // 一度表示したら監視を止める
-                }
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            
+            // アニメーション用の初期クラスを一括付与
+            sections.forEach(section => {
+                section.classList.add('js-fade');
             });
-        }, options);
 
-        sections.forEach(section => {
-            observer.observe(section);
+            const options = {
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // 一度表示したら監視を止める
+                    }
+                });
+            }, options);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
         });
     </script>
 </body>
