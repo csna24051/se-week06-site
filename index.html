@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wata's Happy Portfolio</title>
+    <style>
+        :root {
+            /* 淡いピンク色のテーマ */
+            --bg-color: #fffdfd; /* ほぼ白に近い、ごく薄いピンク */
+            --main-pink: #ffeef2; /* メインのパステルピンク */
+            --accent-pink: #ffb7c5; /* 少し濃い、可愛いピンク（アクセント） */
+            --text-color: #554444; /* ココアブラウンのような、優しい文字色 */
+            --card-bg: #ffffff;
+            --secondary-color: #f7e8e8; /* カードの境界線などに使う薄いピンク */
+            
+            /* フォント：日本語は丸ゴシック体、英語は少し可愛いセリフ体 */
+            --font-family: 'Hiragino Maru Gothic ProN', 'Rounded Mplus 1c', 'Meiryo', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            padding-bottom: 60px;
+            overflow-x: hidden; /* 横スクロールを防止 */
+        }
+
+        /* ふわっと表示させるアニメーション */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header & Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            background-color: rgba(255, 253, 253, 0.95);
+            backdrop-filter: blur(5px);
+            border-bottom: 2px solid var(--main-pink);
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.4rem;
+            color: var(--accent-pink);
+            letter-spacing: 0.03em;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--main-pink);
+            color: var(--accent-pink);
+        }
+
+        /* Hero Section (明るい女の子の雰囲気) */
+        .hero {
+            text-align: center;
+            padding: 100px 20px 80px;
+            max-width: 800px;
+            margin: 0 auto;
+            background: radial-gradient(circle at center, #ffffff 0%, var(--main-pink) 100%);
+            border-radius: 0 0 50px 50px; /* 下部を丸く */
+            box-shadow: 0 5px 15px rgba(255, 238, 242, 0.5);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: heartBeat 1.5s infinite;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--accent-pink);
+            letter-spacing: 0.05em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 70px 0;
+            border-bottom: 1px solid var(--secondary-color);
+            opacity: 0; /* 最初は隠す (JSで表示) */
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 35px;
+            position: relative;
+            display: inline-block;
+            color: var(--text-color);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -8px;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 4px;
+            background-color: var(--accent-pink);
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about-content {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 6px 20px rgba(255, 183, 197, 0.1);
+            border: 2px solid var(--main-pink);
+            text-align: center;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .skill-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            border: 2px solid var(--main-pink);
+            box-shadow: 0 6px 20px rgba(255, 183, 197, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            background-color: var(--main-pink);
+        }
+
+        .skill-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 18px;
+            color: var(--accent-pink);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .skill-list li::before {
+            content: "🍒"; /* 可愛いアイコン */
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* Works Section */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .work-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--main-pink);
+            box-shadow: 0 6px 20px rgba(255, 183, 197, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .work-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(255, 183, 197, 0.2);
+        }
+
+        .work-thumbnail {
+            width: 100%;
+            height: 180px;
+            background-color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .work-thumbnail::after {
+            content: 'Tap to see ✨';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 2px 8px;
+            border-radius: 10px;
+            color: var(--accent-pink);
+        }
+
+        .work-thumbnail svg {
+            width: 60px;
+            height: 60px;
+            fill: var(--accent-pink);
+            opacity: 0.7;
+        }
+
+        .work-info {
+            padding: 25px;
+        }
+
+        .work-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .work-info p {
+            font-size: 0.95rem;
+            color: #776666;
+            margin-bottom: 15px;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: flex-start;
+        }
+
+        .tag {
+            font-size: 0.8rem;
+            background-color: var(--main-pink);
+            padding: 4px 10px;
+            border-radius: 12px;
+            color: var(--accent-pink);
+            font-weight: 500;
+        }
+
+        /* Reflection Section */
+        .reflection-content {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid var(--main-pink);
+            box-shadow: 0 6px 20px rgba(255, 183, 197, 0.1);
+        }
+
+        .reflection-content p {
+            margin-bottom: 20px;
+        }
+        
+        .reflection-content p:last-child {
+            margin-bottom: 0;
+            font-weight: 500;
+            color: var(--accent-pink);
+            text-align: center;
+        }
+
+        /* Modal (Works Detail) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(85, 68, 68, 0.5); /* 優しいブラウンの透過 */
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 25px;
+            max-width: 550px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            animation: modalPop 0.4s ease-out;
+            border: 3px solid var(--main-pink);
+        }
+
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--accent-pink);
+            transition: transform 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        .modal h3 {
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: var(--accent-pink);
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .modal p {
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 25px;
+            white-space: pre-line;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            font-size: 0.9rem;
+            color: #a09090;
+            border-top: 2px solid var(--main-pink);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Responsive Improvements */
+        @media (max-width: 600px) {
+            .hero { padding: 80px 15px 60px; border-radius: 0 0 30px 30px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero-icon { font-size: 3rem; }
+            
+            nav { padding: 10px 15px; }
+            .logo { font-size: 1.2rem; }
+            .nav-links { gap: 8px; }
+            .nav-links a { font-size: 0.8rem; padding: 4px 8px; }
+            
+            section { padding: 50px 0; }
+            h2 { font-size: 1.5rem; margin-bottom: 25px; }
+            
+            .about-content, .skill-card, .work-info, .reflection-content, .modal-content {
+                padding: 20px;
+            }
+            
+            .works-grid { gap: 20px; }
+            .work-thumbnail { height: 150px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">wata ✨</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#works">Works</a></li>
+                <li><a href="#reflection">Reflection</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <div class="hero-icon">💖</div>
+        <h1>I'm wata!</h1>
+        <p>明るい笑顔と、ハッピーなアイデアをお届けします！🌞</p>
+    </div>
+
+    <main>
+        <section id="about">
+            <div style="text-align: center;"><h2>About Me</h2></div>
+            <div class="about-content">
+                <p>こんにちは！wataです。とにかく明るくて、楽しいことが大好き！<br>
+                周りの人からは「いつも楽しそうだね」と言われます✨</p>
+                <p style="margin-top: 15px;">ITやモノづくりにも興味津々で、<br>
+                「どうしたらもっとみんながワクワクできるかな？」を考えながら、<br>
+                日々勉強中です！</p>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div style="text-align: center;"><h2>My Skills</h2></div>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>Coding</h3>
+                    <ul class="skill-list">
+                        <li>Python (お勉強中)</li>
+                        <li>C Language (基礎)</li>
+                        <li>Java (基礎)</li>
+                        <li>HTML / CSS (可愛いサイト作り)</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3>Happy Vibes</h3>
+                    <ul class="skill-list">
+                        <li>いつも明るい笑顔</li>
+                        <li>ポジティブシンキング</li>
+                        <li>人と話すのが大好き</li>
+                        <li>好奇心旺盛</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3>Creativity</h3>
+                    <ul class="skill-list">
+                        <li>ワクワクするアイデア</li>
+                        <li>可愛いレイアウト</li>
+                        <li>Git / GitHub</li>
+                        <li>VS Code</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="works">
+            <div style="text-align: center;"><h2>My Works</h2></div>
+            <div class="works-grid">
+                <div class="work-card" onclick="openModal('work1')">
+                    <div class="work-thumbnail">
+                        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4.32l7 3.82 7-3.82v-4.32l-7 3.82-7-3.82z"/></svg>
+                    </div>
+                    <div class="work-info">
+                        <h3>ハピネス・タスク管理</h3>
+                        <p>勉強の進み具合を、可愛い星マークで管理するツールです。</p>
+                        <div class="tag-container">
+                            <span class="tag">Python</span>
+                            <span class="tag">お勉強</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card" onclick="openModal('work2')">
+                    <div class="work-thumbnail">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </div>
+                    <div class="work-info">
+                        <h3>このポートフォリオ</h3>
+                        <p>「wata」の明るさと可愛さを伝えるための、ピンク色サイト。</p>
+                        <div class="tag-container">
+                            <span class="tag">HTML/CSS</span>
+                            <span class="tag">Happy Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="reflection">
+            <div style="text-align: center;"><h2>Reflection</h2></div>
+            <div class="reflection-content">
+                <p>これまで、ITの勉強は少し難しいイメージがあったけれど、自分のアイデアが形になるのは本当にワクワクします！特に、サイトのデザインを可愛くしたり、動きをつけたりするのは、パズルを解くみたいで楽しいです。</p>
+                <p>今の目標は、ただコードを書くだけじゃなくて、使ってくれた人が思わず笑顔になっちゃうような、そんなハッピーなアウトプットをたくさん作ることです！</p>
+                <p>これからも、明るく元気に頑張ります！🍒✨</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 wata's Happy Portfolio. Made with 💖</p>
+    </footer>
+
+    <div id="detailModal" class="modal" onclick="closeModalOutside(event)">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h3 id="modalTitle">作品タイトル</h3>
+            <p id="modalDescription">作品の詳細説明がここに入ります。</p>
+            <div class="tag-container" id="modalTags" style="justify-content: center;"></div>
+        </div>
+    </div>
+
+    <script>
+        // 作品の詳細データ
+        const workDetails = {
+            work1: {
+                title: 'ハピネス・タスク管理',
+                description: '勉強を楽しく続けるためのツールです。\n\n「今日はこれができた！」というタスクを完了すると、画面いっぱいにキラキラした星が流れる仕組みにしました。\n\n「難しい勉強も、ハッピーに乗り越えたい！」という想いを込めて作っています。',
+                tags: ['Python', 'Logic', 'Study']
+            },
+            work2: {
+                title: 'このポートフォリオ',
+                description: '私、wataの自己紹介サイトです。\n\nとにかく「淡いピンク」と「明るい女の子」をテーマに、見た瞬間にハッピーになれるようなデザインを目指しました。\n\n外部の画像は使わず、コードだけで可愛さを表現することにこだわっています。ふわっとした動きや丸い角など、私のこだわりがいっぱいです！',
+                tags: ['HTML', 'CSS', 'JavaScript']
+            }
+        };
+
+        // モーダルを開く
+        function openModal(key) {
+            const modal = document.getElementById('detailModal');
+            const data = workDetails[key];
+
+            if (!data) return;
+
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalDescription').textContent = data.description;
+            
+            const tagContainer = document.getElementById('modalTags');
+            tagContainer.innerHTML = '';
+            data.tags.forEach(tag => {
+                const span = document.createElement('span');
+                span.className = 'tag';
+                span.textContent = tag;
+                tagContainer.appendChild(span);
+            });
+
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // 背景スクロール防止
+        }
+
+        // モーダルを閉じる
+        function closeModal() {
+            const modal = document.getElementById('detailModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // スクロール再開
+        }
+
+        // モーダルの外側をクリックして閉じる
+        function closeModalOutside(event) {
+            const modal = document.getElementById('detailModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // スクロールアニメーション（ふわっと表示）
+        const sections = document.querySelectorAll('section');
+        const options = {
+            threshold: 0.2 // 20%見えたら実行
+        };
+
+        const observer = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // 一度表示したら監視を止める
+                }
+            });
+        }, options);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
